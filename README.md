@@ -63,4 +63,5 @@
 
 <img width="1874" height="694" alt="스크린샷 2026-06-24 190640" src="https://github.com/user-attachments/assets/d7806667-ce0d-4346-bf8f-3ba6d2e8eccb" />
 
-<img width="1518" height="918" alt="스크린샷 2026-06-24 190723" src="https://github.com/user-attachments/assets/3b4d36b7-2198-4523-8144-adca48f648c5" />
+<img width="1456" height="808" alt="스크린샷 2026-06-24 191217" src="https://github.com/user-attachments/assets/8a58577c-5345-481e-b09c-da0b5d429f76" />
+
