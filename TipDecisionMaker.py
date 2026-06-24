@@ -6,13 +6,13 @@ class TipDetermine:
     def __init__(self,aboutService,yourFeel):
         self.serPoint=aboutService
         self.feel=yourFeel
-        self.TipRate = 0
+        self.__TipRate = 0
 
     def CalculateBase(self):
-        self.TipRate=12+2*(self.serPoint-3)+(self.feel-3)+round(random.random()*3)*0.5
+        self.__TipRate=12+2*(self.serPoint-3)+(self.feel-3)+round(random.random()*3)*0.5
         
     def getTips(self):
-        return self.__TeamRate
+        return self.__TipRate
 
 class Restaurant(TipDetermine):
     def __init__(self,aboutService,aboutStaff,yourFeel):
@@ -37,33 +37,54 @@ class Delivery(TipDetermine):
 
     def getTips(self):
         return self.__TipRate
-try:
-    
-    case = int(input("어떤 종류의 서비스인가요 1.식당 홀서비스 팁  2. 배달 팁  3. 기타 팁 "))
-    if (case==1):
-        service=int(input("제공받은 음식이 만족스럽나요? 5점 만점(정수입력)"))
-        staff=int(input("서빙하는 직원은 만족스럽나요? 5점 만점(정수입력)"))
-        Feeling=int(input("당신의 오늘 하루는 어떠 신가요? 5점 만점(정수입력)"))
-        a=Restaurant(service,staff,Feeling)
-    elif(case==2):
-        service=int(input("제공받은 음식이 만족스럽나요? 5점 만점(정수입력)"))
-        Feeling=int(input("당신의 오늘 하루는 어떠 신가요? 5점 만점(정수입력)"))
-        a=Delivery(service,Feeling)
-    elif(case==3):
-        service=int(input("제공받은 음식이 만족스럽나요? 5점 만점(정수입력)"))
-        Feeling=int(input("당신의 오늘 하루는 어떠 신가요? 5점 만점(정수입력)"))
-        a=TipDetermine(service,Feeling)
-    else:
-        raise InputError
+
+def askserviceFeeling():
+    service=int(input("제공받은 서비스가 만족스럽나요? 5점 만점(정수입력): "))
+    Feeling=int(input("당신의 오늘 기분은 어떠신가요? 5점 만점(정수입력): "))
+    return service, Feeling
 
     
+try:
+    
+    case = int(input("어떤 종류의 서비스인가요 (1.식당 홀서비스  2. 배달  3. 기타): "))
+    if (case==1):
+        service,Feeling=askserviceFeeling()
+        staff=int(input("서빙하는 직원은 만족스럽나요? 5점 만점(정수입력): "))
+        if((service>5 or service<1)or(staff>5 or staff<1)or(Feeling>5 or Feeling<1)):
+            raise InputError
+        a=Restaurant(service,staff,Feeling)
+        a.CalculateBase()
+        finrate=a.getTips()
+    elif(case==2):
+        service,Feeling=askserviceFeeling()
+        if((service>5 or service<1)or(Feeling>5 or Feeling<1)):
+            raise InputError
+        a=Delivery(service,Feeling)
+        a.CalculateBase()
+        finrate=a.getTips()
+    elif(case==3):
+        service,Feeling=askserviceFeeling()
+        if((service>5 or service<1)or(Feeling>5 or Feeling<1)):
+            raise InputError
+        a=TipDetermine(service,Feeling)
+        a.CalculateBase()
+        finrate=a.getTips()
+    else:
+        raise InputError
+    
+    price = int(input("서비스 가격을 입력하세요: "))
+    if price<=0:
+        raise InputError
+    finaltip = int(((price * finrate / 100) // 100) * 100)
+    print(f"추천 팁 비율: {finrate:.1f}%")  # 계산 특성상 finrate 값은 소수점 한 자리까지 나오지만, 혹시 모르니 출력 형식을 한 자리로 제한한다.
+    print(f"추천 팁 금액: {finaltip}원")
+    print(f"추천 지불 금액: {price+finaltip}원")
 
 except ValueError:
     print("정수를 입력해주세요")
 except InputError:
-    print("잘못된 수를 입력하셨습니다. case는 1~3 점수는 1~5사이에 정수를 입력해주세요!")
-        
-        
+    print("잘못된 수를 입력하셨습니다. case는 1~3 점수는 1~5사이의 정수를, 가격은 양수를 입력해주세요!")
+
 
         
         
